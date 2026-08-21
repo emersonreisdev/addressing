@@ -25,6 +25,10 @@ final class PostalCodeHelperTest extends TestCase
         $this->assertEquals(true, PostalCodeHelper::match('203', $includeRule, $excludeRule));
         $this->assertEquals(false, PostalCodeHelper::match('202', $includeRule, $excludeRule));
 
+        $includeRule = '/ZE[0-9]/i';
+        $this->assertEquals(true, PostalCodeHelper::match('ze1 1aa', $includeRule));
+        $this->assertEquals(false, PostalCodeHelper::match('kw1 1aa', $includeRule));
+
         $includeRule = '10, 20, 30:40';
         $excludeRule = '35';
         $this->assertEquals(true, PostalCodeHelper::match('34', $includeRule, $excludeRule));
