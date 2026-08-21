@@ -213,6 +213,36 @@ final class DefaultFormatterTest extends TestCase
     /**
      * @covers \CommerceGuys\Addressing\Formatter\DefaultFormatter
      */
+    public function testColombiaIncompleteAddress(): void
+    {
+        // Colombia separates the locality, department, and postal code with
+        // commas. Leaving out the department should not produce two of them.
+        $address = new Address();
+        $address = $address
+            ->withCountryCode('CO')
+            ->withLocality('Bogota')
+            ->withPostalCode('110111')
+            ->withAddressLine1('Calle 1');
+
+        $expectedHtmlLines = [
+            '<p translate="no">',
+            '<span class="address-line1">Calle 1</span><br>',
+            '<span class="locality">Bogota</span>, <span class="postal-code">110111</span><br>',
+            '<span class="country">Colombia</span>',
+            '</p>',
+        ];
+        $htmlAddress = $this->formatter->format($address);
+        $this->assertFormattedAddress($expectedHtmlLines, $htmlAddress);
+
+        $expectedTextLines = [
+            'Calle 1',
+            'Bogota, 110111',
+            'Colombia',
+        ];
+        $textAddress = $this->formatter->format($address, ['html' => false]);
+        $this->assertFormattedAddress($expectedTextLines, $textAddress);
+    }
+
     public function testUnitedStatesIncompleteAddress(): void
     {
         // Create a US address without a locality.
