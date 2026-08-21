@@ -67,6 +67,9 @@ final class SubdivisionRepositoryTest extends TestCase
             $filename = $parent . '.json';
             vfsStream::newFile($filename)->at($directory)->setContent(json_encode($data));
         }
+        // Malformed definitions, expected to be ignored.
+        vfsStream::newFile('US.json')->at($directory)->setContent(json_encode(['country_code' => 'US']));
+        vfsStream::newFile('CA.json')->at($directory)->setContent('{invalid json');
 
         // Instantiate the subdivision repository and confirm that the
         // definition path was properly set.
@@ -159,6 +162,28 @@ final class SubdivisionRepositoryTest extends TestCase
         $this->assertCount(1, $subdivisions);
         $this->assertArrayHasKey('Abelardo Luz', $subdivisions);
         $this->assertEquals('Abelardo Luz', $subdivisions['Abelardo Luz']->getCode());
+    }
+
+    /**
+     * @covers ::get
+     * @covers ::getAll
+     * @covers ::getList
+     * @covers ::loadDefinitions
+     * @covers ::processDefinitions
+     *
+     * @depends testConstructor
+     */
+    public function testMalformedDefinitions($subdivisionRepository): void
+    {
+        // Valid JSON without a 'subdivisions' key.
+        $this->assertNull($subdivisionRepository->get('AL', ['US']));
+        $this->assertEquals([], $subdivisionRepository->getAll(['US']));
+        $this->assertEquals([], $subdivisionRepository->getList(['US']));
+
+        // Invalid JSON.
+        $this->assertNull($subdivisionRepository->get('AB', ['CA']));
+        $this->assertEquals([], $subdivisionRepository->getAll(['CA']));
+        $this->assertEquals([], $subdivisionRepository->getList(['CA']));
     }
 
     /**

@@ -146,8 +146,8 @@ class SubdivisionRepository implements SubdivisionRepositoryInterface
         if ($this->hasData($parents)) {
             $filename = $this->definitionPath . $group . '.json';
             if ($rawDefinition = @file_get_contents($filename)) {
-                $this->definitions[$group] = json_decode($rawDefinition, true);
-                $this->definitions[$group] = $this->processDefinitions($this->definitions[$group]);
+                $definitions = json_decode($rawDefinition, true);
+                $this->definitions[$group] = $this->processDefinitions(is_array($definitions) ? $definitions : []);
             }
         }
 
@@ -165,6 +165,11 @@ class SubdivisionRepository implements SubdivisionRepositoryInterface
      */
     protected function processDefinitions(array $definitions): array
     {
+        // Malformed definitions are treated as if they didn't exist.
+        if (!isset($definitions['subdivisions']) || !is_array($definitions['subdivisions'])) {
+            return [];
+        }
+
         foreach ($definitions['subdivisions'] as $id => &$definition) {
             // Add common keys from the root level.
             $definition['country_code'] = $definitions['country_code'];
