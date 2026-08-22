@@ -207,5 +207,10 @@ final class SubdivisionRepositoryTest extends TestCase
         $list = $subdivisionRepository->getList(['BR', 'SC']);
         $expectedList = ['Abelardo Luz' => 'Abelardo Luz'];
         $this->assertEquals($expectedList, $list);
+
+        // The local names default to the latin ones.
+        $list = $subdivisionRepository->getList(['BR'], 'pt');
+        $expectedList = ['SC' => 'Santa Catarina', 'SP' => 'São Paulo'];
+        $this->assertEquals($expectedList, $list);
     }
 }

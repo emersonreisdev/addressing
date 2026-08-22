@@ -180,6 +180,11 @@ class SubdivisionRepository implements SubdivisionRepositoryInterface
             if (!isset($definition['name'])) {
                 $definition['name'] = $id;
             }
+            // The local_name value is only specified if it doesn't match
+            // the name one.
+            if (isset($definitions['locale']) && !isset($definition['local_name'])) {
+                $definition['local_name'] = $definition['name'];
+            }
             // The code and local_code values are only specified if they
             // don't match the name and local_name ones.
             if (!isset($definition['code']) && isset($definition['name'])) {
