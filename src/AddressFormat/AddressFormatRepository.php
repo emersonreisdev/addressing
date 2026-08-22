@@ -556,7 +556,7 @@ class AddressFormatRepository implements AddressFormatRepositoryInterface
                 'postal_code_pattern' => '\d{3} ?\d{2}',
             ],
             'GS' => [
-                'format' => "%givenName %familyName\n%organization\n%addressLine1\n%addressLine2\n%addressLine3\n\n%locality\n%postalCode",
+                'format' => "%givenName %familyName\n%organization\n%addressLine1\n%addressLine2\n%addressLine3\n%locality\n%postalCode",
                 'required_fields' => [
                     'addressLine1', 'locality', 'postalCode',
                 ],
