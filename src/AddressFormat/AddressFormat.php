@@ -48,7 +48,7 @@ class AddressFormat
      *
      * @deprecated Use $subdivisionDataFields instead.
      */
-    protected int $subdivisionDepth;
+    protected int $subdivisionDepth = 0;
 
     /**
      * The subdivision data fields.
