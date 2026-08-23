@@ -1124,6 +1124,7 @@ class AddressFormatRepository implements AddressFormatRepositoryInterface
                 'required_fields' => [
                     'addressLine1', 'locality', 'administrativeArea',
                 ],
+                'administrative_area_type' => 'region',
                 'locality_type' => 'district',
                 'postal_code_pattern' => '[0-2]\d{4}',
                 'subdivision_data_fields' => ['administrativeArea'],
