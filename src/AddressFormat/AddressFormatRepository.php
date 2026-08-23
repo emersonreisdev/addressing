@@ -571,6 +571,7 @@ class AddressFormatRepository implements AddressFormatRepositoryInterface
                 'format' => "%givenName %familyName\n%organization\n%addressLine1\n%addressLine2\n%addressLine3\n%postalCode- %locality, %administrativeArea",
                 'administrative_area_type' => 'department',
                 'postal_code_pattern' => '\d{5}',
+                'subdivision_data_fields' => ['administrativeArea'],
             ],
             'GU' => [
                 'format' => "%givenName %familyName\n%organization\n%addressLine1\n%addressLine2\n%addressLine3\n%locality %postalCode",
